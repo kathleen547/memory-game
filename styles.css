@@ -2,3 +2,15 @@ body {
   font-family: sans-serif;
   text-align: center;
 }
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, 80px);
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.stats {
+  margin: 20px;
+}

@@ -1,7 +1,5 @@
 console.log("Memory Game start");
 
-
-
 /**
  * Fetches CSV file and returns its content as text.
  * @param {string} file - Path to CSV file
@@ -38,7 +36,8 @@ function parseCSV(csv){
 }
 
 /**
- * Randomly shuffles items in an array.
+ * Randomly shuffles items in an array
+ * using Fisher-Yates algorithm
  * @param {Array} data
  * @returns {Array}
  */
@@ -74,14 +73,40 @@ function createGameCards(data){
   return gameCards;
 }
 
+/**
+ * Creates card elements and appends them to the game board.
+ * Each card is built with front and back sides using provided data.
+ * @param {Array} cards - Array of values used to populate card backs
+ */
+function renderCards(cards){
+  let board = document.getElementById('game-board');
+  let numberOfElements = cards.length;
+
+  for (let i = 0; i < numberOfElements; i++){
+    let card = document.createElement('div');
+    card.className = 'card';
+    let cardInner = document.createElement('div');
+    cardInner.className = 'card-inner';
+    let cardFront = document.createElement('div');
+    cardFront.className = 'card-front';
+    let cardBack = document.createElement('div');
+    cardBack.className = 'card-back';
+    cardBack.textContent = cards[i];
+    cardInner.appendChild(cardFront);
+    cardInner.appendChild(cardBack);
+    card.appendChild(cardInner);
+    board.appendChild(card);
+  }
+}
+
+
 let cardData = getData('capitals.csv')
 .then(csv => parseCSV(csv))
 .then(lines => shuffleItems(lines))
 .then(items => selectItems(items))
 .then(words => createGameCards(words))
 .then(cards => shuffleItems(cards))
-.then(result => console.log(result))
+.then(result => renderCards(result))
 
-const board = document.getElementById("game-board");
 
 console.log("Board ready");

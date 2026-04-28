@@ -85,6 +85,9 @@ function renderCards(cards){
   for (let i = 0; i < numberOfElements; i++){
     let card = document.createElement('div');
     card.className = 'card';
+    card.addEventListener('click', function() {
+      card.classList.toggle('flipped');
+      });
     let cardInner = document.createElement('div');
     cardInner.className = 'card-inner';
     let cardFront = document.createElement('div');

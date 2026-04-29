@@ -54,3 +54,12 @@ body {
   color: black;
   transform: rotateY(180deg);
 }
+
+.disabled {
+    cursor: wait; /* busy cursor feedback */
+}
+
+.disabled * {
+    /* disable all mouse events on children elements */
+    pointer-events: none; 
+}

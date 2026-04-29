@@ -102,6 +102,59 @@ function renderCards(cards){
   }
 }
 
+/**
+ * Disables the game board by adding a CSS class.
+ * Prevents further user interactions (clicks) on cards.
+ */
+function blockBoard(){
+  let board = document.getElementById('game-board');
+  board.classList.add("disabled");
+}
+
+/**
+ * Enables the game board by removing the disabled CSS class.
+ * Restores user interactions with the cards.
+ */
+function unblockBoard(){
+  let board = document.getElementById('game-board');
+  board.classList.remove("disabled");
+}
+
+/**
+ * Checks whether the game board is currently blocked.
+ * @returns {boolean} True if the board is disabled, otherwise false.
+ */
+function isBoardBlocked(){
+  let board = document.getElementById('game-board');
+  return board.classList.contains("disabled");
+}
+
+/**
+ * Initializes game interactions by attaching click event listeners to all cards.
+ * Handles user clicks and updates game state (first and second selected cards).
+ * Should be called after cards are rendered in the DOM.
+ */
+function init(){
+  let elements = document.getElementsByClassName("card");
+  let chosen = "";
+  let firstCard = "";
+  let secondCard = "";
+  for(let i = 0; i < elements.length; i++){
+    elements[i].onclick = function(eventObj){
+      chosen = eventObj.target.closest('.card');
+      console.log('Click detected');
+      if(!isBoardBlocked()){
+        if(firstCard == ""){
+          firstCard = chosen;
+        }
+        else if(chosen != firstCard){
+          secondCard = chosen;
+          blockBoard();
+        }
+      }
+    };
+  }
+}
 
 let cardData = getData('capitals.csv')
 .then(csv => parseCSV(csv))
@@ -109,7 +162,7 @@ let cardData = getData('capitals.csv')
 .then(items => selectItems(items))
 .then(words => createGameCards(words))
 .then(cards => shuffleItems(cards))
-.then(result => renderCards(result))
+.then(result => {renderCards(result)
+    init()
+})
 
-
-console.log("Board ready");

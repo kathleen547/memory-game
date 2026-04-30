@@ -141,6 +141,12 @@ function init(){
   let firstCard = null;
   let secondCard = null;
   let matchedPairs = 0;
+  let movesCounter = 0;
+  let movesDisplay = document.getElementById("moves");
+  function incrementMoves(){
+    movesCounter++;
+    movesDisplay.innerText = movesCounter;
+  }
   function resetSelectedCards(){
     firstCard = null;
     secondCard = null;
@@ -155,10 +161,10 @@ function init(){
         }
         else if(chosen != firstCard){
           secondCard = chosen;
+          incrementMoves();
           blockBoard();
           let isPair = matchPairs(firstCard, secondCard);
           if(isPair){
-            matchedPairs++;
             setTimeout(function(){
                 firstCard.classList.add("matched");
                 secondCard.classList.add("matched");
@@ -184,6 +190,7 @@ function init(){
 function matchPairs(firstCard, secondCard){
     return firstCard.dataset.pairId === secondCard.dataset.pairId;
 }
+
 
 let cardData = getData('capitals.csv')
 .then(csv => parseCSV(csv))

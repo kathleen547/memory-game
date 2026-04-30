@@ -63,3 +63,8 @@ body {
     /* disable all mouse events on children elements */
     pointer-events: none; 
 }
+
+.matched {
+    cursor: wait;
+    visibility: hidden;
+}

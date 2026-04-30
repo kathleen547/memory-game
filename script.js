@@ -62,13 +62,13 @@ function selectItems(data){
  * Creates game card data from selected items.
  * Transforms data into pairs used in the memory game.
  * @param {Array<Object>} data
- * @returns {Array}
+ * @returns {Array<Object>}
  */
 function createGameCards(data){
   let gameCards = [];
   for(let i = 0; i < data.length; i++){
-    gameCards.push(data[i].country);
-    gameCards.push(data[i].capital);
+    gameCards.push({element: data[i].country, pairID: i});
+    gameCards.push({element: data[i].capital, pairID: i});
   }
   return gameCards;
 }
@@ -76,7 +76,7 @@ function createGameCards(data){
 /**
  * Creates card elements and appends them to the game board.
  * Each card is built with front and back sides using provided data.
- * @param {Array} cards - Array of values used to populate card backs
+ * @param {Array<Object>} cards - Array of values used to populate card backs
  */
 function renderCards(cards){
   let board = document.getElementById('game-board');
@@ -85,6 +85,7 @@ function renderCards(cards){
   for (let i = 0; i < numberOfElements; i++){
     let card = document.createElement('div');
     card.className = 'card';
+    card.dataset.pairId = cards[i].pairID;
     card.addEventListener('click', function() {
       card.classList.toggle('flipped');
       });
@@ -94,7 +95,7 @@ function renderCards(cards){
     cardFront.className = 'card-front';
     let cardBack = document.createElement('div');
     cardBack.className = 'card-back';
-    cardBack.textContent = cards[i];
+    cardBack.textContent = cards[i].element;
     cardInner.appendChild(cardFront);
     cardInner.appendChild(cardBack);
     card.appendChild(cardInner);
@@ -136,24 +137,52 @@ function isBoardBlocked(){
  */
 function init(){
   let elements = document.getElementsByClassName("card");
-  let chosen = "";
-  let firstCard = "";
-  let secondCard = "";
+  let chosen = null;
+  let firstCard = null;
+  let secondCard = null;
+  let matchedPairs = 0;
+  function resetSelectedCards(){
+    firstCard = null;
+    secondCard = null;
+  }
   for(let i = 0; i < elements.length; i++){
     elements[i].onclick = function(eventObj){
       chosen = eventObj.target.closest('.card');
-      console.log('Click detected');
       if(!isBoardBlocked()){
-        if(firstCard == ""){
+        chosen.classList.add("flipped");
+        if(firstCard == null){
           firstCard = chosen;
         }
         else if(chosen != firstCard){
           secondCard = chosen;
           blockBoard();
+          let isPair = matchPairs(firstCard, secondCard);
+          if(isPair){
+            matchedPairs++;
+            setTimeout(function(){
+                firstCard.classList.add("matched");
+                secondCard.classList.add("matched");
+                resetSelectedCards();
+                unblockBoard();
+            }, 1000);
+            
+          } 
+          else{
+            setTimeout(function(){
+                firstCard.classList.remove("flipped");
+                secondCard.classList.remove("flipped");
+                resetSelectedCards();
+                unblockBoard();
+            }, 2000);
+          }
         }
       }
     };
   }
+}
+
+function matchPairs(firstCard, secondCard){
+    return firstCard.dataset.pairId === secondCard.dataset.pairId;
 }
 
 let cardData = getData('capitals.csv')

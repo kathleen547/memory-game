@@ -1,8 +1,47 @@
 body {
-  font-family: sans-serif;
   text-align: center;
+  background-color:#836FFF;
+  color:#F0F3FF;
 }
 
+body {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+h1 {
+  font-family: "Orbitron", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.game-container{
+    width: max-content;
+    margin: 0 auto;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+#restart{
+    padding: 3px;
+    border-radius: 20%;
+    background:#836FFF;
+    cursor: pointer;
+    border: #836FFF;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+#restart:hover{
+    transform: translateY(-2.5px);
+}
 .board {
   display: grid;
   grid-template-columns: repeat(4, 100px);
@@ -11,15 +50,10 @@ body {
   margin-top: 20px;
 }
 
-.stats {
-  margin: 20px;
-}
-
 .card {
   background-color: transparent;
   width: 100px;
   height: 100px;
-  border: 1px solid #290b0b;
   perspective: 1000px;
 }
 
@@ -45,13 +79,21 @@ body {
 }
 
 .card-front {
-  background-color: #bbb;
-  color: black;
+  background:#211951;
+  background-image: url("assets/wind-rose.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 10%;
+
 }
 
 .card-back {
-  background-color: dodgerblue;
-  color: black;
+  background-color: #15F5BA;
+  color: #211951;
+  border-radius: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transform: rotateY(180deg);
 }
 
@@ -68,3 +110,4 @@ body {
     cursor: wait;
     visibility: hidden;
 }
+

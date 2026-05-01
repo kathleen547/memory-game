@@ -137,20 +137,18 @@ function isBoardBlocked(){
  */
 function init(){
   let elements = document.getElementsByClassName("card");
-  let chosen = null;
-  let firstCard = null;
-  let secondCard = null;
-  let matchedPairs = 0;
-  let movesCounter = 0;
   let movesDisplay = document.getElementById("moves");
+  
   function incrementMoves(){
     movesCounter++;
     movesDisplay.innerText = movesCounter;
   }
+
   function resetSelectedCards(){
     firstCard = null;
     secondCard = null;
   }
+
   for(let i = 0; i < elements.length; i++){
     elements[i].onclick = function(eventObj){
       chosen = eventObj.target.closest('.card');
@@ -187,18 +185,64 @@ function init(){
   }
 }
 
+/**
+ * Checks whether two selected cards belong to the same pair.
+ * Compares their pair identifiers and returns the match result.
+ * @param {HTMLElement} firstCard - First selected card element
+ * @param {HTMLElement} secondCard - Second selected card element
+ * @returns {boolean} True if cards match, otherwise false
+ */
 function matchPairs(firstCard, secondCard){
     return firstCard.dataset.pairId === secondCard.dataset.pairId;
 }
 
 
-let cardData = getData('capitals.csv')
-.then(csv => parseCSV(csv))
-.then(lines => shuffleItems(lines))
-.then(items => selectItems(items))
-.then(words => createGameCards(words))
-.then(cards => shuffleItems(cards))
-.then(result => {renderCards(result)
-    init()
-})
+/**
+ * Starts a new game round.
+ * Loads card data, prepares game cards, renders them on the board,
+ * and initializes card interactions.
+ */
+function startGame(){
+    getData('capitals.csv')
+    .then(csv => parseCSV(csv))
+    .then(lines => shuffleItems(lines))
+    .then(items => selectItems(items))
+    .then(words => createGameCards(words))
+    .then(cards => shuffleItems(cards))
+    .then(result => {
+        renderCards(result)
+        init()
+    })
+}
+
+/**
+ * Removes all card elements from the game board.
+ * Used before starting a new game or restarting the current one.
+ */
+function cleanBoard(){
+    let board = document.getElementById('game-board');
+    while(board.hasChildNodes()){
+        board.removeChild(board.firstChild);
+    }
+}
+
+
+let chosen = null;
+let firstCard = null;
+let secondCard = null;
+let movesCounter = 0;
+let resetButton = document.getElementById("restart");
+resetButton.onclick = function(){
+    chosen = null;
+    firstCard = null;
+    secondCard = null;
+    movesCounter = 0;
+    cleanBoard();
+    startGame();
+}
+startGame();
+
+
+
+
 

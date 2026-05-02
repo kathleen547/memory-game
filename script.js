@@ -144,11 +144,6 @@ function init(){
     movesDisplay.innerText = movesCounter;
   }
 
-  function resetSelectedCards(){
-    firstCard = null;
-    secondCard = null;
-  }
-
   for(let i = 0; i < elements.length; i++){
     elements[i].onclick = function(eventObj){
       chosen = eventObj.target.closest('.card');
@@ -163,21 +158,10 @@ function init(){
           blockBoard();
           let isPair = matchPairs(firstCard, secondCard);
           if(isPair){
-            setTimeout(function(){
-                firstCard.classList.add("matched");
-                secondCard.classList.add("matched");
-                resetSelectedCards();
-                unblockBoard();
-            }, 1000);
-            
+            handleMatch();
           } 
           else{
-            setTimeout(function(){
-                firstCard.classList.remove("flipped");
-                secondCard.classList.remove("flipped");
-                resetSelectedCards();
-                unblockBoard();
-            }, 2000);
+            handleMismatch();
           }
         }
       }
@@ -196,6 +180,55 @@ function matchPairs(firstCard, secondCard){
     return firstCard.dataset.pairId === secondCard.dataset.pairId;
 }
 
+/**
+ * Resets the currently selected cards.
+ * Clears references to the first and second selected card.
+ */
+function resetSelectedCards(){
+    firstCard = null;
+    secondCard = null;
+}
+
+/**
+ * Handles a successful card match.
+ * Marks selected cards as matched, updates the matched pairs counter,
+ * resets selected cards, and unlocks the board.
+ */
+function handleMatch(){
+    let matchDelay = 1000;
+    setTimeout(function(){
+        firstCard.classList.add("matched");
+        secondCard.classList.add("matched");
+        resetSelectedCards();
+        unblockBoard();
+        }, matchDelay);
+}
+
+
+/**
+ * Handles a failed card match.
+ * Shows mismatch feedback, flips selected cards back after a short delay,
+ * resets selected cards, and unlocks the board.
+ */
+function handleMismatch(){
+    let shakeStartDelay = 100;
+    let shakeDuration = 400;
+    let flipBackDelay = 1000;
+    setTimeout(function(){
+        firstCard.classList.add("wrong");
+        secondCard.classList.add("wrong");
+        }, shakeStartDelay);
+    setTimeout(function(){
+        firstCard.classList.remove("wrong");
+        secondCard.classList.remove("wrong");
+        }, shakeDuration);
+    setTimeout(function(){
+        firstCard.classList.remove("flipped");
+        secondCard.classList.remove("flipped");
+        resetSelectedCards();
+        unblockBoard();
+        }, flipBackDelay);
+}
 
 /**
  * Starts a new game round.

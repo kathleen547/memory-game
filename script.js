@@ -233,10 +233,11 @@ let secondCard = null;
 let movesCounter = 0;
 let resetButton = document.getElementById("restart");
 resetButton.onclick = function(){
+    movesCounter = 0;
+    document.getElementById("moves").innerText = movesCounter;
     chosen = null;
     firstCard = null;
     secondCard = null;
-    movesCounter = 0;
     cleanBoard();
     startGame();
 }

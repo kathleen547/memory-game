@@ -1,8 +1,9 @@
 /* Global theme colors */
 :root {
-  --stm-bg: #744577;
-  --stm-card-front: #ACCFA3 ;
-  --stm-card-back: #84C5B1;
+  --mg-bg: #744577;
+  --mg-card-front:#84C5B1;
+  --mg-card-back:#ACCFA3 ;
+  --mg-text: #F0E9B6;
 }
 
 
@@ -11,7 +12,7 @@ body {
   background: linear-gradient(300deg,#231524,#6e3b71, #744577);
   background-size: 180% 180%;
   animation: gradient-animation 18s ease infinite;
-  color:var(--stm-card-back);
+  color:var(--mg-text);
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
@@ -36,7 +37,7 @@ h1 {
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
-  color: var(--stm-card-back);
+  color: var(--mg-text);
 }
 
 .game-container{
@@ -105,7 +106,7 @@ h1 {
 }
 
 .card-front {
-  background: var(--stm-card-front);
+  background: var(--mg-card-front);
   background-image: url("assets/wind-rose1.png");
   background-size: 40px 40px;
   background-repeat: no-repeat;
@@ -115,8 +116,8 @@ h1 {
 }
 
 .card-back {
-  background-color: var(--stm-card-back);
-  color: var(--stm-bg);
+  background-color: var(--mg-card-back);
+  color: var(--mg-bg);
   border-radius: 10%;
   display: flex;
   justify-content: center;

@@ -20,7 +20,7 @@ async function getData(file) {
  */
 
 function parseCSV(csv){
-  let lines = csv.split('\r\n');
+  let lines = csv.trim().split(/\r?\n/);
   let header = lines.shift().split(',');
   let allWords = [];
   for(let i = 0; i < lines.length; i++){
@@ -80,15 +80,6 @@ function createGameCards(data){
  * @param {Array<Object>} cards - Array of values used to populate card backs
  */
 function renderCards(cards){
-  console.log("renderCards called:", cards.length);
-
-  let board = document.getElementById('game-board');
-  console.log("board:", board);
-
-  if (!board) {
-    console.error("Game board not found");
-    return;
-  }
 
   //let board = document.getElementById('game-board');
   let numberOfElements = cards.length;
@@ -257,7 +248,6 @@ function startGame(){
         renderCards(result)
         init()
     })
-    .catch(error => console.error("Game initialization failed:", error));
 }
 
 /**

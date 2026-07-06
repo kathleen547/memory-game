@@ -81,7 +81,7 @@ function createGameCards(data){
  */
 function renderCards(cards){
 
-  //let board = document.getElementById('game-board');
+  let board = document.getElementById('game-board');
   let numberOfElements = cards.length;
 
   for (let i = 0; i < numberOfElements; i++){

@@ -32,6 +32,7 @@ function parseCSV(csv){
     };
     allWords.push(word);
   }
+  console.log("parsed words:", allWords.length);
   return allWords;
 }
 
@@ -79,7 +80,17 @@ function createGameCards(data){
  * @param {Array<Object>} cards - Array of values used to populate card backs
  */
 function renderCards(cards){
+  console.log("renderCards called:", cards.length);
+
   let board = document.getElementById('game-board');
+  console.log("board:", board);
+
+  if (!board) {
+    console.error("Game board not found");
+    return;
+  }
+
+  //let board = document.getElementById('game-board');
   let numberOfElements = cards.length;
 
   for (let i = 0; i < numberOfElements; i++){
@@ -246,6 +257,7 @@ function startGame(){
         renderCards(result)
         init()
     })
+    .catch(error => console.error("Game initialization failed:", error));
 }
 
 /**

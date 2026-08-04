@@ -30,7 +30,6 @@ export function parseCSV(csv){
     };
     allWords.push(word);
   }
-  console.log("parsed words:", allWords.length);
   return allWords;
 }
 
@@ -49,12 +48,12 @@ export function shuffleItems(data){
 }
 
 /**
- * Selects 8 random unique items from an array.
+ * Selects random unique items from an array.
  * @param {Array} data
  * @returns {Array}
  */
-export function selectItems(data){
-  return data.slice(0, 8);
+export function selectItems(data, numberOfElements){
+  return data.slice(0, numberOfElements);
 }
 
 

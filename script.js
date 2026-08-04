@@ -170,7 +170,7 @@ function startGame(){
     getData('./data/capitals.csv')
     .then(csv => parseCSV(csv))
     .then(lines => shuffleItems(lines))
-    .then(items => selectItems(items))
+    .then(items => selectItems(items, 8))
     .then(words => createGameCards(words))
     .then(cards => shuffleItems(cards))
     .then(result => {

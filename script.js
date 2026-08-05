@@ -11,7 +11,6 @@ export function renderCards(cards, board = document.getElementById("game-board")
   if (!board) {
         throw new Error("renderCards: container #game-board not found");
     }
-    
   let numberOfElements = cards.length;
 
   for (let i = 0; i < numberOfElements; i++){
@@ -77,13 +76,13 @@ function unblockBoard(){
  * Handles user clicks and updates game state (first and second selected cards).
  * Should be called after cards are rendered in the DOM.
  */
-function init(){
+export function init(){
   let elements = document.getElementsByClassName("card");
   let movesDisplay = document.getElementById("moves");
   
   function incrementMoves(){
     movesCounter++;
-    movesDisplay.innerText = movesCounter;
+    movesDisplay.textContent = movesCounter;
   }
 
   for(let i = 0; i < elements.length; i++){
@@ -203,6 +202,14 @@ export function initializeApp(){
     startGame();
   }
   startGame();
+}
+
+export function resetGameState() {
+    chosen = null;
+    firstCard = null;
+    secondCard = null;
+    movesCounter = 0;
+    unblockBoard();
 }
 
 

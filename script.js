@@ -1,16 +1,17 @@
-console.log("Memory Game start");
-
 import {getData, parseCSV, shuffleItems, selectItems, createGameCards} from './js/gameSetup.js'
-
+import { matchPairs} from './js/gameState.js';
 
 /**
  * Creates card elements and appends them to the game board.
  * Each card is built with front and back sides using provided data.
  * @param {Array<Object>} cards - Array of values used to populate card backs
  */
-function renderCards(cards){
+export function renderCards(cards, board = document.getElementById("game-board")){
 
-  let board = document.getElementById('game-board');
+  if (!board) {
+        throw new Error("renderCards: container #game-board not found");
+    }
+    
   let numberOfElements = cards.length;
 
   for (let i = 0; i < numberOfElements; i++){
@@ -34,6 +35,25 @@ function renderCards(cards){
   }
 }
 
+
+/**
+ * Resets the currently selected cards.
+ * Clears references to the first and second selected card.
+ */
+export function resetSelectedCards(){
+    firstCard = null;
+    secondCard = null;
+}
+
+/**
+ * Checks whether the game board is currently blocked.
+ * @returns {boolean} True if the board is disabled, otherwise false.
+ */
+export function isBoardBlocked(){
+  let board = document.getElementById('game-board');
+  return board.classList.contains("disabled");
+}
+
 /**
  * Disables the game board by adding a CSS class.
  * Prevents further user interactions (clicks) on cards.
@@ -50,15 +70,6 @@ function blockBoard(){
 function unblockBoard(){
   let board = document.getElementById('game-board');
   board.classList.remove("disabled");
-}
-
-/**
- * Checks whether the game board is currently blocked.
- * @returns {boolean} True if the board is disabled, otherwise false.
- */
-function isBoardBlocked(){
-  let board = document.getElementById('game-board');
-  return board.classList.contains("disabled");
 }
 
 /**
@@ -87,7 +98,9 @@ function init(){
           secondCard = chosen;
           incrementMoves();
           blockBoard();
-          let isPair = matchPairs(firstCard, secondCard);
+          let firstId = firstCard.dataset.pairId;
+          let secondId = secondCard.dataset.pairId;
+          let isPair = matchPairs(firstId, secondId);
           if(isPair){
             handleMatch();
           } 
@@ -100,25 +113,6 @@ function init(){
   }
 }
 
-/**
- * Checks whether two selected cards belong to the same pair.
- * Compares their pair identifiers and returns the match result.
- * @param {HTMLElement} firstCard - First selected card element
- * @param {HTMLElement} secondCard - Second selected card element
- * @returns {boolean} True if cards match, otherwise false
- */
-function matchPairs(firstCard, secondCard){
-    return firstCard.dataset.pairId === secondCard.dataset.pairId;
-}
-
-/**
- * Resets the currently selected cards.
- * Clears references to the first and second selected card.
- */
-function resetSelectedCards(){
-    firstCard = null;
-    secondCard = null;
-}
 
 /**
  * Handles a successful card match.
@@ -195,8 +189,11 @@ let chosen = null;
 let firstCard = null;
 let secondCard = null;
 let movesCounter = 0;
-let resetButton = document.getElementById("restart");
-resetButton.onclick = function(){
+
+
+export function initializeApp(){
+    let resetButton = document.getElementById("restart");
+    resetButton.onclick = function(){
     movesCounter = 0;
     document.getElementById("moves").innerText = movesCounter;
     chosen = null;
@@ -204,8 +201,12 @@ resetButton.onclick = function(){
     secondCard = null;
     cleanBoard();
     startGame();
+  }
+  startGame();
 }
-startGame();
+
+
+
 
 
 

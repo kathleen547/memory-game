@@ -1,5 +1,7 @@
 {
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.1.2",
     "cross-env": "^10.1.0",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1"
@@ -8,7 +10,7 @@
   "scripts": {
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
   },
-   "jest": {
+  "jest": {
     "testEnvironment": "jsdom"
   }
 }
